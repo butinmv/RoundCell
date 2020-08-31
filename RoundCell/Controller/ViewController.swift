@@ -56,11 +56,13 @@ extension ViewController {
             switch indexPath.row {
             case 0:
                 cell.roundView.roundCorners(corners: [.top])
+                cell.separateLine.isHidden = false
             case tableView.numberOfRows(inSection: indexPath.section) - 1:
                 cell.roundView.roundCorners(corners: [.bottom])
                 cell.separateLine.isHidden = true
             default:
                 cell.roundView.roundCorners(corners: [], radius: 0)
+                cell.separateLine.isHidden = false
             }
             
             return cell
@@ -74,11 +76,13 @@ extension ViewController {
             switch indexPath.row {
             case 0:
                 cell.roundView.roundCorners(corners: [.top])
+                cell.separateLine.isHidden = false
             case tableView.numberOfRows(inSection: indexPath.section) - 1:
                 cell.roundView.roundCorners(corners: [.bottom])
                 cell.separateLine.isHidden = true
             default:
                 cell.roundView.roundCorners(corners: [], radius: 0)
+                cell.separateLine.isHidden = false
             }
             
             return cell
