@@ -9,9 +9,9 @@
 import UIKit
 
 extension UIView {
-    var topLeft:     CACornerMask { return .layerMinXMinYCorner }
-    var topRight:    CACornerMask { return .layerMaxXMinYCorner }
-    var bottomLeft:  CACornerMask { return .layerMinXMaxYCorner }
+    var topLeft: CACornerMask { return .layerMinXMinYCorner }
+    var topRight: CACornerMask { return .layerMaxXMinYCorner }
+    var bottomLeft: CACornerMask { return .layerMinXMaxYCorner }
     var bottomRight: CACornerMask { return .layerMaxXMaxYCorner }
     
     func roundCorners(corners: RoundCorners, radius: CGFloat? = 8.0) {
