@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    let items: [Section: [String]] = Data.all()
+    let items = Data.all()
+    var settings = Data.turnOnSettings()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,48 +44,55 @@ extension ViewController {
         return items[section]?.count ?? 0
     }
     
+    fileprivate func switchCallBack(_ cell: SettingsCell, _ setting: String?) {
+        cell.callBack = { [weak self] in
+            guard let setting = setting else { return }
+            if cell.switcher.isOn {
+                self?.settings.append(setting)
+            } else {
+                guard let index = self?.settings.firstIndex(of: setting) else { return }
+                self?.settings.remove(at: index)
+            }
+            
+            print(self?.settings.sorted())
+        }
+    }
+    
+    fileprivate func designCell(_ indexPath: IndexPath, _ cell: BasicCell, _ tableView: UITableView) {
+        switch indexPath.row {
+        case 0:
+            cell.roundView.roundCorners(corners: [.top])
+            cell.separateLine.isHidden = false
+        case tableView.numberOfRows(inSection: indexPath.section) - 1:
+            cell.roundView.roundCorners(corners: [.bottom])
+            cell.separateLine.isHidden = true
+        default:
+            cell.roundView.roundCorners(corners: [], radius: 0)
+            cell.separateLine.isHidden = false
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = Section.getSection(indexPath.section)
         switch section {
+        case .mainSettings, .settings:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseId) as? SettingsCell else {
+                fatalError("Not found \(SettingsCell.self)")
+            }
+            let setting = items[section]?[indexPath.row]
+            cell.update(setting: setting, settings: settings)
+            cell.setting = setting
+            cell.delegate = self
+//            switchCallBack(cell, setting)
+            designCell(indexPath, cell, tableView)
+            return cell
         case .names:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NameCell.reuseId) as? NameCell else {
                 fatalError("Not found \(NameCell.self)")
             }
             let name = items[section]?[indexPath.row]
             cell.update(name: name)
-            
-            switch indexPath.row {
-            case 0:
-                cell.roundView.roundCorners(corners: [.top])
-                cell.separateLine.isHidden = false
-            case tableView.numberOfRows(inSection: indexPath.section) - 1:
-                cell.roundView.roundCorners(corners: [.bottom])
-                cell.separateLine.isHidden = true
-            default:
-                cell.roundView.roundCorners(corners: [], radius: 0)
-                cell.separateLine.isHidden = false
-            }
-            
-            return cell
-        case .settings:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseId) as? SettingsCell else {
-                fatalError("Not found \(SettingsCell.self)")
-            }
-            let setting = items[section]?[indexPath.row]
-            cell.update(setting: setting)
-            
-            switch indexPath.row {
-            case 0:
-                cell.roundView.roundCorners(corners: [.top])
-                cell.separateLine.isHidden = false
-            case tableView.numberOfRows(inSection: indexPath.section) - 1:
-                cell.roundView.roundCorners(corners: [.bottom])
-                cell.separateLine.isHidden = true
-            default:
-                cell.roundView.roundCorners(corners: [], radius: 0)
-                cell.separateLine.isHidden = false
-            }
-            
+            designCell(indexPath, cell, tableView)
             return cell
         }
     }
@@ -103,3 +111,15 @@ extension ViewController {
     }
 }
 
+extension ViewController: SettingsCellDelegate {
+    func didChangeValue(_ cell: SettingsCell, _ setting: String) {
+        if cell.switcher.isOn {
+            settings.append(setting)
+        } else {
+            guard let index = settings.firstIndex(of: setting) else { return }
+            settings.remove(at: index)
+        }
+        
+        print(settings.sorted())
+    }
+}

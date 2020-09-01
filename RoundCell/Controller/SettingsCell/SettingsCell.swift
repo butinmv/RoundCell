@@ -8,20 +8,38 @@
 
 import UIKit
 
-class SettingsCell: UITableViewCell {
+protocol SettingsCellDelegate: class {
+    func didChangeValue(_ cell: SettingsCell, _ setting: String)
+}
+
+class SettingsCell: BasicCell {
 
     static var reuseId = "\(SettingsCell.self)"
     
-    @IBOutlet weak var roundView: UIView!
     @IBOutlet weak var settingLabel: UILabel!
-    @IBOutlet weak var separateLine: UIView!
+    @IBOutlet weak var switcher: UISwitch!
+    
+    // Callback Method
+    var callBack: (() -> ())?
+    
+    // Delegate Method
+    var delegate: SettingsCellDelegate?
+    var setting: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func update(setting: String?) {
+    func update(setting: String?, settings: [String]) {
         settingLabel.text = setting
+        guard let setting = setting else { return }
+        switcher.isOn = settings.contains(setting) ? true : false
     }
     
+    @IBAction func toogle(_ sender: UISwitch) {
+//        callBack?()
+        guard let setting = setting, let delegate = delegate else { return }
+        delegate.didChangeValue(self, setting)
+        
+    }
 }

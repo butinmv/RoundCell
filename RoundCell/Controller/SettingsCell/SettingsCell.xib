@@ -21,6 +21,9 @@
                         <subviews>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aKE-6A-YNe">
                                 <rect key="frame" x="231" y="6.5" width="51" height="31"/>
+                                <connections>
+                                    <action selector="toogle:" destination="KGk-i7-Jjw" eventType="valueChanged" id="Nm8-Yn-wjH"/>
+                                </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройка 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-3b-U9d">
                                 <rect key="frame" x="8" y="11.5" width="99" height="21"/>
@@ -60,6 +63,7 @@
                 <outlet property="roundView" destination="UIL-72-74p" id="SZ8-8f-kZ2"/>
                 <outlet property="separateLine" destination="xfb-L9-c6u" id="RDB-k9-rKb"/>
                 <outlet property="settingLabel" destination="Krg-3b-U9d" id="Cbz-Re-MrD"/>
+                <outlet property="switcher" destination="aKE-6A-YNe" id="Qaj-hg-U5d"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="150.66964285714286"/>
         </tableViewCell>

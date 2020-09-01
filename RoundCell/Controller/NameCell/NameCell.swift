@@ -8,13 +8,16 @@
 
 import UIKit
 
-class NameCell: UITableViewCell {
+class BasicCell: UITableViewCell {
+    @IBOutlet weak var separateLine: UIView!
+    @IBOutlet weak var roundView: UIView!
+}
+
+class NameCell: BasicCell {
 
     static var reuseId = "\(NameCell.self)"
     
-    @IBOutlet weak var roundView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var separateLine: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

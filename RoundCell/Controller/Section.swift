@@ -10,11 +10,13 @@ import Foundation
 
 enum Section: CustomStringConvertible, CaseIterable {
     
+    case mainSettings
     case names
     case settings
     
     var description: String {
         switch self {
+        case .mainSettings: return "Main settings"
         case .names: return "Names"
         case .settings: return "Settings"
         }
